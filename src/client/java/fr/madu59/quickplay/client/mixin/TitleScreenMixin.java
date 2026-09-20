@@ -56,31 +56,33 @@ public abstract class TitleScreenMixin extends Screen {
     )
     private <T extends GuiEventListener & Renderable & NarratableEntry> T quickplay$addRenderableWidget(TitleScreen instance, T widget, Operation<T> original, @Local(ordinal = 0) int topPos) {
 
-        for(int i = 0; i < QuickPlayClient.LAST_PLAYED_BUTTONS_COUNT; i++){
-            int index = i;
-            PlayedWorldData data = QuickPlayClient.getLastPlayed(index);
+        if(SettingsManager.QUICKPLAY_BUTTONS.getValue()){
+            for(int i = 0; i < QuickPlayClient.LAST_PLAYED_BUTTONS_COUNT; i++){
+                int index = i;
+                PlayedWorldData data = QuickPlayClient.getLastPlayed(index);
 
-            Identifier iconId = Identifier.withDefaultNamespace("textures/misc/unknown_server.png");
-            Component name = Component.literal("Unknown");
-            if(data != null){
-                FaviconTexture icon = FaviconTexture.forWorld(this.minecraft.getTextureManager(), data.getId());
-                if(icon != null) {
-                    if(validateIconFile(data.getIconPath())) loadIcon(icon, data.getIconPath());
-                    iconId = icon.textureLocation();
+                Identifier iconId = Identifier.withDefaultNamespace("textures/misc/unknown_server.png");
+                Component name = Component.literal("Unknown");
+                if(data != null){
+                    FaviconTexture icon = FaviconTexture.forWorld(this.minecraft.getTextureManager(), data.getId());
+                    if(icon != null) {
+                        if(validateIconFile(data.getIconPath())) loadIcon(icon, data.getIconPath());
+                        iconId = icon.textureLocation();
+                    }
+                    name = Component.literal(data.getServerName());
                 }
-                name = Component.literal(data.getServerName());
-            }
 
-            IconButton spriteIconButton = new IconButton(20, 20, name, 18, 18, 0, 0, new WidgetSprites(iconId), (var1) -> QuickPlayClient.resumeLastPlayed(index), null, null, true);
-            spriteIconButton.setPosition(width - 22, height - 32 - i * 22);
-            spriteIconButton.setTooltip(Tooltip.create(name));
-            original.call(instance, spriteIconButton);
+                IconButton spriteIconButton = new IconButton(20, 20, name, 18, 18, 0, 0, new WidgetSprites(iconId), (var1) -> QuickPlayClient.resumeLastPlayed(index), null, null, true);
+                spriteIconButton.setPosition(width - 22, height - 32 - i * 22);
+                spriteIconButton.setTooltip(Tooltip.create(name));
+                original.call(instance, spriteIconButton);
+            }
         }
 
-		if(SettingsManager.QUICKPLAY_BUTTON.getValue()){
+		if(SettingsManager.CONTINUE_BUTTON.getValue() && QuickPlayClient.getLastPlayed(0) != null){
 			Button singlePlayerButton = Button.builder(Component.translatable("menu.singleplayer"), (var1) -> this.minecraft.gui.setScreen(new SelectWorldScreen(this))).bounds(this.width / 2 + 2, topPos, 98, 20).build();
 
-            Button quickPlayButton = Button.builder(Component.translatable("quickplay.menu.quickplay"), (var1) -> QuickPlayClient.resumeLastPlayed()).bounds(this.width / 2 - 100, topPos, 98, 20).build();
+            Button quickPlayButton = Button.builder(Component.translatable("quickplay.menu.continue"), (var1) -> QuickPlayClient.resumeLastPlayed()).bounds(this.width / 2 - 100, topPos, 98, 20).build();
 
             original.call(instance, quickPlayButton);
 
@@ -129,7 +131,6 @@ public abstract class TitleScreenMixin extends Screen {
 
                 try {
                     icon.upload(NativeImage.read(stream));
-                    System.out.println("YAY: " + iconFile + " | " + icon.textureLocation());
                 } catch (Throwable var6) {
                     if (stream != null) {
                         try {

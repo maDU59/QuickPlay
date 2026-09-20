@@ -20,11 +20,17 @@ public class SettingsManager {
     private static final Path CONFIG_PATH = PlatformHelper.getConfigDir().resolve(QuickPlay.MOD_ID + ".json");
     private static Map<String, String> loadedSettings = loadSettings();
 
-    private static Runnable emptyAction = () -> {};
+    private static Runnable EMPTY_ACTION = () -> {};
 
-    public static Option<Boolean> QUICKPLAY_BUTTON = loadOptionWithDefaults(
-        "quickplay_button", 
-        "quickplay.config.quickplay_button", 
+    public static Option<Boolean> CONTINUE_BUTTON = loadOptionWithDefaults(
+        "continue_button", 
+        "quickplay.config.continue_button", 
+        true
+    );
+
+    public static Option<Boolean> QUICKPLAY_BUTTONS = loadOptionWithDefaults(
+        "quickplay_buttons", 
+        "quickplay.config.quickplay_buttons", 
         true
     );
 
@@ -96,7 +102,7 @@ public class SettingsManager {
     }
 
     private static <T> Option<T> loadOptionWithDefaults(String id, String name, T defaultValue) {
-        return loadOptionWithDefaults(id, name, name, defaultValue, emptyAction);
+        return loadOptionWithDefaults(id, name, name, defaultValue, EMPTY_ACTION);
     }
 
     private static <T> Option<T> loadOptionWithDefaults(String id, String name, T defaultValue, Runnable action) {
@@ -104,7 +110,7 @@ public class SettingsManager {
     }
 
     private static <T> Option<T> loadOptionWithDefaults(String id, String name, String description, T defaultValue) {
-        return loadOptionWithDefaults(id, name, description, defaultValue, emptyAction);
+        return loadOptionWithDefaults(id, name, description, defaultValue, EMPTY_ACTION);
     }
 
     private static <T> Option<T> loadOptionWithDefaults(String id, String name, String description, T defaultValue, Runnable action) {
