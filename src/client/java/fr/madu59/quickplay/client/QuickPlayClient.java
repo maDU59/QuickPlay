@@ -58,8 +58,17 @@ public class QuickPlayClient implements ClientModInitializer {
 	public static void addPlayed(PlayedWorldData data){
 		if(!data.isInitialized()) return;
 
-		lastPlayed.removeIf((k) -> k.getId() == data.getId());
+		lastPlayed.removeIf((k) -> k.getId().equals(data.getId()));
 
 		lastPlayed.addFirst(data);
+		saveLastPlayed();
+	}
+
+	public static void saveLastPlayed(){
+
+	}
+
+	public static void loadLastPlayed(){
+
 	}
 }
