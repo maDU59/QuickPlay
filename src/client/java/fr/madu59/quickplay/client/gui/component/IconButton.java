@@ -7,6 +7,7 @@ import net.minecraft.client.gui.components.SpriteIconButton.CenteredIcon;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.ARGB;
 
 public class IconButton extends CenteredIcon {
 
@@ -18,7 +19,7 @@ public class IconButton extends CenteredIcon {
 
     @Override
     protected void extractSprite(final GuiGraphicsExtractor graphics, final int x, final int y) {
-        graphics.blit(RenderPipelines.GUI_TEXTURED, this.sprite.get(this.isActive(), this.isHoveredOrFocused()), x, y, 0, 0, this.spriteWidth, this.spriteHeight, this.spriteWidth, this.spriteHeight);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, this.sprite.get(this.isActive(), this.isHoveredOrFocused()), x, y, 0, 0, this.spriteWidth, this.spriteHeight, this.spriteWidth, this.spriteHeight, ARGB.white(this.alpha));
     }
     
 }
