@@ -34,6 +34,12 @@ public class SettingsManager {
         true
     );
 
+    public static Option<Integer> QUICKPLAY_BUTTONS_COUNT = loadOptionWithDefaults(
+        "quickplay_buttons_count", 
+        "quickplay.config.quickplay_buttons_count", 
+        5
+    );
+
     public static void saveSettings() {
         Map<String, String> map = toMap(ALL_OPTIONS.values());
         Set<Runnable> actions = new HashSet<Runnable>();

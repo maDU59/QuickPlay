@@ -57,7 +57,7 @@ public abstract class TitleScreenMixin extends Screen {
     private <T extends GuiEventListener & Renderable & NarratableEntry> T quickplay$addRenderableWidget(TitleScreen instance, T widget, Operation<T> original, @Local(ordinal = 0) int topPos) {
 
         if(SettingsManager.QUICKPLAY_BUTTONS.getValue()){
-            for(int i = 0; i < QuickPlayClient.LAST_PLAYED_BUTTONS_COUNT; i++){
+            for(int i = 0; i < SettingsManager.QUICKPLAY_BUTTONS_COUNT.getValue(); i++){
                 int index = i;
                 PlayedWorldData data = QuickPlayClient.getLastPlayed(index);
 

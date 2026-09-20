@@ -3,6 +3,7 @@ package fr.madu59.quickplay.client.config.configscreen;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.*;
 
 import fr.madu59.quickplay.client.config.SettingsManager;
+import fr.madu59.quickplay.client.config.configscreen.entries.builders.SliderBuilder;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -36,6 +37,13 @@ public class QuickPlayConfigScreen extends Screen {
     protected void init() {
         super.init();
         this.list = new MyConfigListWidget(this.minecraft, this.width, this.height - 80, 40, 26);
+
+        this.list.category("quickplay.config.category.continue_button").build();
+        this.list.button(SettingsManager.CONTINUE_BUTTON).build();
+
+        this.list.category("quickplay.config.category.quickplay_buttons").build();
+        this.list.button(SettingsManager.QUICKPLAY_BUTTONS).build();
+        this.list.slider(SettingsManager.QUICKPLAY_BUTTONS_COUNT).range(1, 10).step(1).isEnabled(() -> SettingsManager.QUICKPLAY_BUTTONS.getValue()).build();
 
         Button doneButton = Button.builder(Component.translatable("quickplay.config.done"), b -> {
             this.minecraft.gui.setScreen(this.parent);

@@ -1,3 +1,14 @@
 {
-    "quickplay.menu.continue":"Continue"
+    "quickplay.menu.continue":"Continue",
+
+    "quickplay.config.continue_button":"Continue Button",
+    "quickplay.config.quickplay_buttons":"Quick Play Buttons",
+    "quickplay.config.quickplay_buttons_count":"Count",
+
+    "quickplay.config.category.continue_button":"Continue Button",
+    "quickplay.config.category.quickplay_buttons":"Quick Play Buttons",
+
+    "quickplay.config.value.true":"Enabled",
+    "quickplay.config.value.false":"Disabled",
+    "quickplay.config.done":"Done"
 }
