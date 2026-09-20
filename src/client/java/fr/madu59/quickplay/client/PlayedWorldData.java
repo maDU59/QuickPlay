@@ -37,6 +37,14 @@ public class PlayedWorldData {
         isInitialized = true;
     }
 
+    public PlayedWorldData(String name, String id, boolean isClientLevel, Path iconPath){
+        this.name = name;
+        this.id = id;
+        this.isClientLevel = isClientLevel;
+        this.iconPath = iconPath;
+        this.isInitialized = true;
+    }
+
     public String getId(){
         return id;
     }
@@ -55,5 +63,46 @@ public class PlayedWorldData {
 
     public Path getIconPath(){
         return iconPath;
+    }
+
+    public Builder builder(){
+        return new Builder();
+    }
+
+    public static class Builder{
+
+        private String name = "Unknown";
+        private String id = null;
+        private boolean isClientLevel = true;
+        private Path iconPath = Path.of("unknown");
+
+        public PlayedWorldData build(){
+            return new PlayedWorldData(name, id, isClientLevel, iconPath);
+        }
+
+        public Builder isClientLevel(boolean isClientLevel){
+            this.isClientLevel = isClientLevel;
+            return this;
+        }
+
+        public Builder name(String name){
+            this.name = name;
+            return this;
+        }
+
+        public Builder id(String id){
+            this.id = id;
+            return this;
+        }
+
+        public Builder iconPath(Path iconPath){
+            this.iconPath = iconPath;
+            return this;
+        }
+
+        public Builder iconPath(String iconPath){
+            this.iconPath = Path.of(iconPath);
+            return this;
+        }
     }
 }
