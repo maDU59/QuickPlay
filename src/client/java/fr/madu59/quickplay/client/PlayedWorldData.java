@@ -14,6 +14,8 @@ public class PlayedWorldData {
     private boolean isClientLevel;
     private boolean isInitialized = false;
     private Path iconPath;
+    private ServerData serverData;
+    private byte[] iconBytes;
 
     public PlayedWorldData(Minecraft client){
         if(client.hasSingleplayerServer()){
@@ -28,20 +30,23 @@ public class PlayedWorldData {
         }
         else{
             isClientLevel = false;
-            ServerData serverData = client.getCurrentServer();
+            serverData = client.getCurrentServer();
             if (serverData == null) return;
 
             name = serverData.name;
             id = serverData.ip;
+            iconBytes = serverData.getIconBytes();
         }
         isInitialized = true;
     }
 
-    public PlayedWorldData(String name, String id, boolean isClientLevel, Path iconPath){
+    public PlayedWorldData(String name, String id, boolean isClientLevel, Path iconPath, ServerData serverData, byte[] iconBytes){
         this.name = name;
         this.id = id;
         this.isClientLevel = isClientLevel;
         this.iconPath = iconPath;
+        this.serverData = serverData;
+        this.iconBytes = iconBytes;
         this.isInitialized = true;
     }
 
@@ -65,6 +70,14 @@ public class PlayedWorldData {
         return iconPath;
     }
 
+    public ServerData getServerData(){
+        return serverData;
+    }
+
+    public byte[] getIconBytes(){
+        return iconBytes;
+    }
+
     public Builder builder(){
         return new Builder();
     }
@@ -75,9 +88,11 @@ public class PlayedWorldData {
         private String id = null;
         private boolean isClientLevel = true;
         private Path iconPath = Path.of("unknown");
+        private ServerData serverData = null;
+        private byte[] iconBytes = null;
 
         public PlayedWorldData build(){
-            return new PlayedWorldData(name, id, isClientLevel, iconPath);
+            return new PlayedWorldData(name, id, isClientLevel, iconPath, serverData, iconBytes);
         }
 
         public Builder isClientLevel(boolean isClientLevel){
@@ -102,6 +117,16 @@ public class PlayedWorldData {
 
         public Builder iconPath(String iconPath){
             this.iconPath = Path.of(iconPath);
+            return this;
+        }
+
+        public Builder serverData(ServerData serverData){
+            this.serverData = serverData;
+            return this;
+        }
+
+        public Builder iconBytes(byte[] iconBytes){
+            this.iconBytes = iconBytes;
             return this;
         }
     }

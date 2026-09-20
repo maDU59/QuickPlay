@@ -9,6 +9,7 @@ import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.FaviconTexture;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
+import net.minecraft.client.gui.screens.multiplayer.ServerSelectionList;
 import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -64,10 +65,23 @@ public abstract class TitleScreenMixin extends Screen {
                 Identifier iconId = Identifier.withDefaultNamespace("textures/misc/unknown_server.png");
                 Component name = Component.literal("Unknown");
                 if(data != null){
-                    FaviconTexture icon = FaviconTexture.forWorld(this.minecraft.getTextureManager(), data.getId());
-                    if(icon != null) {
-                        if(validateIconFile(data.getIconPath())) loadIcon(icon, data.getIconPath());
-                        iconId = icon.textureLocation();
+                    if(data.isClientLevel()){
+                        FaviconTexture icon = FaviconTexture.forWorld(this.minecraft.getTextureManager(), data.getId());
+                        if(icon != null) {
+                            if(validateIconFile(data.getIconPath())) loadIcon(icon, data.getIconPath());
+                            iconId = icon.textureLocation();
+                        }
+                    }
+                    else{
+                        FaviconTexture icon = FaviconTexture.forServer(this.minecraft.getTextureManager(), data.getId());
+                        if(icon != null) {
+                            try {
+                                icon.upload(NativeImage.read(data.getIconBytes()));
+                            } catch (Throwable t) {
+
+                            }
+                            iconId = icon.textureLocation();
+                        }
                     }
                     name = Component.literal(data.getServerName());
                 }

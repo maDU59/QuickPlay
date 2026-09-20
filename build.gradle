@@ -30,6 +30,8 @@ dependencies {
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
 	implementation "maven.modrinth:modmenu:${project.modmenu_version}"
+
+	runtimeOnly "maven.modrinth:auth-me:v9.3.0+26.3"
 }
 
 processResources {

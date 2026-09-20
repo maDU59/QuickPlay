@@ -8,8 +8,11 @@ import org.jspecify.annotations.Nullable;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.ConnectScreen;
 import net.minecraft.client.gui.screens.TitleScreen;
+import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
 import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
+import net.minecraft.client.multiplayer.resolver.ServerAddress;
 
 public class QuickPlayClient implements ClientModInitializer {
 
@@ -32,16 +35,21 @@ public class QuickPlayClient implements ClientModInitializer {
 		Minecraft client = Minecraft.getInstance();
 		if(lastPlayed.size() > i){
 			PlayedWorldData data = lastPlayed.get(i);
-			if (data.getId() == null || !client.getLevelSource().levelExists(data.getId())) {
-				client.setScreenAndShow(new SelectWorldScreen(new TitleScreen()));
+			if(data.isClientLevel()){
+				if (data.getId() == null || !client.getLevelSource().levelExists(data.getId())) {
+					client.setScreenAndShow(new SelectWorldScreen(new TitleScreen()));
+					return;
+				}
+
+				client.createWorldOpenFlows().openWorld(
+					data.getId(),
+					() -> client.setScreenAndShow(new TitleScreen())
+				);
 				return;
 			}
-
-			client.createWorldOpenFlows().openWorld(
-				data.getId(),
-				() -> client.setScreenAndShow(new TitleScreen())
-			);
-			return;
+			else{
+				ConnectScreen.startConnecting(new JoinMultiplayerScreen(new TitleScreen()), client, ServerAddress.parseString(data.getId()), data.getServerData(), false, null);
+			}
 		}
 		else{
 			client.setScreenAndShow(new SelectWorldScreen(new TitleScreen()));
