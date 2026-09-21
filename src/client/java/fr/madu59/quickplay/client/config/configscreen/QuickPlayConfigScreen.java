@@ -3,7 +3,6 @@ package fr.madu59.quickplay.client.config.configscreen;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.*;
 
 import fr.madu59.quickplay.client.config.SettingsManager;
-import fr.madu59.quickplay.client.config.configscreen.entries.builders.SliderBuilder;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;

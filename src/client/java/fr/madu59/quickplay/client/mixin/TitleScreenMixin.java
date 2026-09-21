@@ -9,7 +9,6 @@ import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.FaviconTexture;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
-import net.minecraft.client.gui.screens.multiplayer.ServerSelectionList;
 import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -35,9 +34,9 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.platform.NativeImage;
 
-import fr.madu59.quickplay.client.PlayedWorldData;
 import fr.madu59.quickplay.client.QuickPlayClient;
 import fr.madu59.quickplay.client.config.SettingsManager;
+import fr.madu59.quickplay.client.data.PlayedWorldData;
 import fr.madu59.quickplay.client.gui.component.IconButton;
 
 @Mixin(TitleScreen.class)
@@ -84,12 +83,12 @@ public abstract class TitleScreenMixin extends Screen {
                         }
                     }
                     name = Component.literal(data.getServerName());
-                }
 
-                IconButton spriteIconButton = new IconButton(20, 20, name, 18, 18, 0, 0, new WidgetSprites(iconId), (var1) -> QuickPlayClient.resumeLastPlayed(index), null, null, true);
-                spriteIconButton.setPosition(width - 22, height - 32 - i * 22);
-                spriteIconButton.setTooltip(Tooltip.create(name));
-                original.call(instance, spriteIconButton);
+                    IconButton spriteIconButton = new IconButton(20, 20, name, 18, 18, 0, 0, new WidgetSprites(iconId), (var1) -> QuickPlayClient.resumeLastPlayed(index), null, null, true);
+                    spriteIconButton.setPosition(width - 22, height - 32 - i * 22);
+                    spriteIconButton.setTooltip(Tooltip.create(name));
+                    original.call(instance, spriteIconButton);
+                }
             }
         }
 

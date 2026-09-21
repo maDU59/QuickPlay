@@ -17,7 +17,7 @@ public class SettingsManager {
 
     public static Map<String, Option<?>> ALL_OPTIONS = new HashMap<>();
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final Path CONFIG_PATH = PlatformHelper.getConfigDir().resolve(QuickPlay.MOD_ID + ".json");
+    private static final Path CONFIG_PATH = PlatformHelper.getConfigDir().resolve(QuickPlay.MOD_ID + "/config.json");
     private static Map<String, String> loadedSettings = loadSettings();
 
     private static Runnable EMPTY_ACTION = () -> {};

@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.jspecify.annotations.Nullable;
 
+import fr.madu59.quickplay.client.data.PlayedWorldData;
+import fr.madu59.quickplay.client.data.PlayedWorldDataStorage;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.Minecraft;
@@ -18,10 +20,9 @@ public class QuickPlayClient implements ClientModInitializer {
 
 	private static List<PlayedWorldData> lastPlayed = new ArrayList<>();
 
-	public static int LAST_PLAYED_BUTTONS_COUNT = 5;
-
 	@Override
 	public void onInitializeClient() {
+		loadLastPlayed();
 		ClientPlayConnectionEvents.JOIN.register((_, _, client) -> {
             addPlayed(new PlayedWorldData(client));
         });
@@ -66,17 +67,25 @@ public class QuickPlayClient implements ClientModInitializer {
 	public static void addPlayed(PlayedWorldData data){
 		if(!data.isInitialized()) return;
 
-		lastPlayed.removeIf((k) -> k.getId().equals(data.getId()));
+		lastPlayed.removeIf((k) -> {
+			if(k.getId().equals(data.getId())){
+				if(data.getIconBytes() == null){
+					data.setIconBytes(k.getIconBytes());
+				}
+				return true;
+			}
+			return false;
+		});
 
 		lastPlayed.addFirst(data);
 		saveLastPlayed();
 	}
 
 	public static void saveLastPlayed(){
-
+		PlayedWorldDataStorage.save(lastPlayed);
 	}
 
 	public static void loadLastPlayed(){
-
+		lastPlayed = PlayedWorldDataStorage.load();
 	}
 }
