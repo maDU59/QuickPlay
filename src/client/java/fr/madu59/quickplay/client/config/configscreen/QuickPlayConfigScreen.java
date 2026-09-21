@@ -39,6 +39,8 @@ public class QuickPlayConfigScreen extends Screen {
 
         this.list.category("quickplay.config.category.continue_button").build();
         this.list.button(SettingsManager.CONTINUE_BUTTON).build();
+        this.list.button(SettingsManager.CONTINUE_BUTTON_TOOLTIP).isEnabled(() -> SettingsManager.CONTINUE_BUTTON.getValue()).build();
+        this.list.button(SettingsManager.CONTINUE_BUTTON_CUSTOM_TEXT).isEnabled(() -> SettingsManager.CONTINUE_BUTTON.getValue()).build();
 
         this.list.category("quickplay.config.category.quickplay_buttons").build();
         this.list.button(SettingsManager.QUICKPLAY_BUTTONS).build();

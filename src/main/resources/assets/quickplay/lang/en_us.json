@@ -2,6 +2,8 @@
     "quickplay.menu.continue":"Continue",
 
     "quickplay.config.continue_button":"Continue Button",
+    "quickplay.config.continue_button_tooltip":"Tooltip",
+    "quickplay.config.continue_button_custom_text":"Use World Name As Button Text",
     "quickplay.config.quickplay_buttons":"Quick Play Buttons",
     "quickplay.config.quickplay_buttons_count":"Count",
 

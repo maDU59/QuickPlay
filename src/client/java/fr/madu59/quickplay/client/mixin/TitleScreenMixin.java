@@ -84,9 +84,8 @@ public abstract class TitleScreenMixin extends Screen {
                     }
                     name = Component.literal(data.getServerName());
 
-                    IconButton spriteIconButton = new IconButton(20, 20, name, 18, 18, 0, 0, new WidgetSprites(iconId), (var1) -> QuickPlayClient.resumeLastPlayed(index), null, null, true);
+                    IconButton spriteIconButton = new IconButton(20, 20, name, 18, 18, 0, 0, new WidgetSprites(iconId), (var1) -> QuickPlayClient.resumeLastPlayed(index), name, null, true);
                     spriteIconButton.setPosition(width - 22, height - 32 - i * 22);
-                    spriteIconButton.setTooltip(Tooltip.create(name));
                     original.call(instance, spriteIconButton);
                 }
             }
@@ -95,9 +94,13 @@ public abstract class TitleScreenMixin extends Screen {
 		if(SettingsManager.CONTINUE_BUTTON.getValue() && QuickPlayClient.getLastPlayed(0) != null){
 			Button singlePlayerButton = Button.builder(Component.translatable("menu.singleplayer"), (var1) -> this.minecraft.gui.setScreen(new SelectWorldScreen(this))).bounds(this.width / 2 + 2, topPos, 98, 20).build();
 
-            Button quickPlayButton = Button.builder(Component.translatable("quickplay.menu.continue"), (var1) -> QuickPlayClient.resumeLastPlayed()).bounds(this.width / 2 - 100, topPos, 98, 20).build();
+            Component continueButtonText = Component.translatable("quickplay.menu.continue");
+            if(SettingsManager.CONTINUE_BUTTON_CUSTOM_TEXT.getValue()) continueButtonText = Component.literal(QuickPlayClient.getLastPlayed(0).getServerName());
 
-            original.call(instance, quickPlayButton);
+            Button continueButton = Button.builder(continueButtonText, (var1) -> QuickPlayClient.resumeLastPlayed()).bounds(this.width / 2 - 100, topPos, 98, 20).build();
+            if(SettingsManager.CONTINUE_BUTTON_TOOLTIP.getValue()) continueButton.setTooltip(Tooltip.create(Component.literal(QuickPlayClient.getLastPlayed(0).getServerName())));
+
+            original.call(instance, continueButton);
 
 			return original.call(instance, singlePlayerButton);
 		}

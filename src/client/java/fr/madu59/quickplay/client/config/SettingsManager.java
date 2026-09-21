@@ -28,6 +28,18 @@ public class SettingsManager {
         true
     );
 
+    public static Option<Boolean> CONTINUE_BUTTON_TOOLTIP = loadOptionWithDefaults(
+        "continue_button_tooltip", 
+        "quickplay.config.continue_button_tooltip", 
+        false
+    );
+
+    public static Option<Boolean> CONTINUE_BUTTON_CUSTOM_TEXT = loadOptionWithDefaults(
+        "continue_button_custom_text", 
+        "quickplay.config.continue_button_custom_text", 
+        false
+    );
+
     public static Option<Boolean> QUICKPLAY_BUTTONS = loadOptionWithDefaults(
         "quickplay_buttons", 
         "quickplay.config.quickplay_buttons", 
